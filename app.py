@@ -2,6 +2,9 @@ import MeCab
 import json
 import discord
 import os
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 import subprocess
 from pydub import AudioSegment
 
@@ -124,7 +127,6 @@ class VoiceChannel:
         return filepath+'.mp3'
 
 client = discord.Client()
-client_id = 'ODQ3OTAxMDU3Nzk0NzAzNDEx.YLEzZQ.wsP84Cui1F_ZdmK8mi7Gk_W8qRI'
 
 voice = None
 volume = None
@@ -147,11 +149,11 @@ async def on_message(message):
 
     if client.user != message.author:
         text = message.content
-        if text == '!login':
+        if text == '.s':
             channel = message.author.voice.channel
             voice = await channel.connect()
             await message.channel.send('ボイスチャンネルにログインしました')
-        elif text == '!logout':
+        elif text == '.e':
             await voice.disconnect()
             await message.channel.send('ボイスチャンネルからログアウトしました')
         elif text == '!status':
@@ -178,4 +180,7 @@ async def on_message(message):
             audio_source = discord.FFmpegPCMAudio(voice_file)
             voice.play(audio_source)
 
-client.run(client_id)
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+client.run(os.environ.get("DISCORD_TOKEN"))
