@@ -1,1 +1,0 @@
-bot: bash run.sh
