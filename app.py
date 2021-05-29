@@ -180,7 +180,4 @@ async def on_message(message):
             audio_source = discord.FFmpegPCMAudio(voice_file)
             voice.play(audio_source)
 
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-
-client.run(os.environ.get("DISCORD_TOKEN"))
+client.run(os.environ['DISCORD_TOKEN'])
